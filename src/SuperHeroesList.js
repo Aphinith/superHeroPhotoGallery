@@ -39,11 +39,11 @@ class SuperHeroesList extends Component {
       superHeroes.map(function(hero) {
         return (
           <div key={hero.id} className="hero">
-            <div className="hero-image-container">
-              <img src={hero.imageUrl} className="hero-imageurl" />
-            </div>
             <div className="hero-name">
               {hero.name}
+            </div>
+            <div className="hero-image-container">
+              <img src={hero.imageUrl} className="hero-imageurl" />
             </div>
           </div>
         );
