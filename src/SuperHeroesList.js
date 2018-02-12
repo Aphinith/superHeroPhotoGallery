@@ -38,8 +38,13 @@ class SuperHeroesList extends Component {
     return (
       superHeroes.map(function(hero) {
         return (
-          <div key={hero.id}>
-            {hero.name}
+          <div key={hero.id} className="hero">
+            <div className="hero-image-container">
+              <img src={hero.imageUrl} className="hero-imageurl" />
+            </div>
+            <div className="hero-name">
+              {hero.name}
+            </div>
           </div>
         );
       })
@@ -51,7 +56,7 @@ class SuperHeroesList extends Component {
       console.log('we have our heroes!!!');
       const allSuperHeroes = this.state.allSuperHeroes;
       return (
-        <div>
+        <div className="heroes-container">
           {this._showAllSuperHeroes(allSuperHeroes)}
         </div>
       );
