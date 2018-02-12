@@ -11,26 +11,57 @@ class SuperHeroesList extends Component {
     }
 
   componentDidMount() {
-    console.log('mounted');
-    console.log('all super heroes: ', this.state.allSuperHeroes);
     const ts = new Date().getTime();
     const hash = CryptoJS.MD5(ts + PRIVATE_KEY + PUBLIC_KEY).toString();
+    const that = this;
 
     axios.get(`https://gateway.marvel.com:443/v1/public/characters?ts=${ts}&apikey=041913049d30965248efb127224d9eaa&hash=${hash}`)
       .then(function (data) {
-        console.log('this is data: ', data);
+        const allSuperHeroesFromData = data.data.data.results;
+        console.log('this is allSuperHeroesFromData: ', allSuperHeroesFromData);
+        let extractedSuperHeroes = [];
+        for (var i = 0; i < allSuperHeroesFromData.length; i++) {
+          const id = allSuperHeroesFromData[i]['id'];
+          const name = allSuperHeroesFromData[i]['name'];
+          const imageUrl = allSuperHeroesFromData[i]['thumbnail']['path'] + '.' + allSuperHeroesFromData[i]['thumbnail']['extension'];
+          extractedSuperHeroes.push({'id': id, 'name': name, 'imageUrl': imageUrl});
+        }
+        that.setState({"allSuperHeroes": extractedSuperHeroes});
       })
       .catch(function (error) {
-        console.log('there was an error');
+        console.log('there was an error: ', error);
       });
   }
 
-  render() {
+  _showAllSuperHeroes(superHeroes) {
+    console.log('all super heroes: ', superHeroes);
     return (
-      <div>
-        This is the component that will render all the super heroes!
-      </div>
+      superHeroes.map(function(hero) {
+        return (
+          <div key={hero.id}>
+            {hero.name}
+          </div>
+        );
+      })
     );
+  }
+
+  render() {
+    if (this.state.allSuperHeroes.length > 0) {
+      console.log('we have our heroes!!!');
+      const allSuperHeroes = this.state.allSuperHeroes;
+      return (
+        <div>
+          {this._showAllSuperHeroes(allSuperHeroes)}
+        </div>
+      );
+    } else {
+      return (
+        <div>
+          Please wait...
+        </div>
+      );
+    }
   }
 }
 
