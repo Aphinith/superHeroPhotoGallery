@@ -1,3 +1,8 @@
+.please-wait {
+  margin-top: 20px;
+  font-size: 20px;
+}
+
 .heroes-container {
   width: 87%;
   margin: auto;
@@ -75,4 +80,18 @@
 
 .carousel-hero-imageurl {
   width: 60%;
+}
+
+.previous-btn, .next-btn {
+  color: white;
+  background-color: red;
+  border-radius: 50px;
+  margin: 15px;
+  width: 90px;
+  height: 30px;
+  font-size: 15px;
+}
+
+.previous-btn:focus, .next-btn:focus {
+  outline: none;
 }

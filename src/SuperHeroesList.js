@@ -198,8 +198,8 @@ class SuperHeroesList extends Component {
                     <div className="carousel-hero-description">{allSuperHeroes[19]['description']}</div>
                   </Slide>
                 </Slider>
-                <ButtonBack>Previous</ButtonBack>
-                <ButtonNext>Next</ButtonNext>
+                <ButtonBack className="previous-btn">Previous</ButtonBack>
+                <ButtonNext className="next-btn">Next</ButtonNext>
               </CarouselProvider>
             </div>
           </div>
@@ -207,7 +207,7 @@ class SuperHeroesList extends Component {
       );
     } else {
       return (
-        <div>
+        <div className="please-wait">
           Please wait...
         </div>
       );
