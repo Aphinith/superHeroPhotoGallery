@@ -11,7 +11,8 @@ class SuperHeroesList extends Component {
       super(props);
       this.state = { "allSuperHeroes": [],
                      "modalBackgroundDisplay": "modal-hide",
-                     "slideIndex": 0 }
+                     "slideIndex": 0,
+                     "error": false }
     }
 
   componentDidMount() {
@@ -36,7 +37,7 @@ class SuperHeroesList extends Component {
         that.setState({"allSuperHeroes": extractedSuperHeroes});
       })
       .catch(function (error) {
-        console.log('there was an error: ', error);
+        that.setState({"error": true});
       });
   }
 
@@ -202,6 +203,12 @@ class SuperHeroesList extends Component {
               </CarouselProvider>
             </div>
           </div>
+        </div>
+      );
+    } else if (this.state.error) {
+      return (
+        <div className="marvel-api-error">
+          Ooops! Failed to gather super heroes. Please refresh the page and try again...
         </div>
       );
     } else {

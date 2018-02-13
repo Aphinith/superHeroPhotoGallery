@@ -1,4 +1,4 @@
-.please-wait {
+.please-wait, .marvel-api-error {
   margin-top: 20px;
   font-size: 20px;
 }
