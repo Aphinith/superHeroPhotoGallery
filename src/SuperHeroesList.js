@@ -10,7 +10,8 @@ class SuperHeroesList extends Component {
   constructor(props) {
       super(props);
       this.state = { "allSuperHeroes": [],
-                     "modalBackgroundDisplay": "modal-hide" }
+                     "modalBackgroundDisplay": "modal-hide",
+                     "slideIndex": 0 }
     }
 
   componentDidMount() {
@@ -37,25 +38,32 @@ class SuperHeroesList extends Component {
   }
 
   _toggleCarousel(ev) {
-    console.log('show carousel');
+    let slideIndex = ev.target.dataset.index;
+    if (slideIndex === undefined) {
+      slideIndex = 0;
+    }
+    console.log('slideIndex: ', slideIndex);
+
     if (this.state.modalBackgroundDisplay === "modal-hide") {
-      this.setState({"modalBackgroundDisplay": "modal-show"});
+      this.setState({"modalBackgroundDisplay": "modal-show",
+                     "slideIndex": slideIndex });
     } else {
-      this.setState({"modalBackgroundDisplay": "modal-hide"});
+      this.setState({"modalBackgroundDisplay": "modal-hide",
+                     "slideIndex": slideIndex });
     }
   }
 
   _showAllSuperHeroes(superHeroes) {
     const that = this;
     return (
-      superHeroes.map(function(hero) {
+      superHeroes.map(function(hero, index) {
         return (
-          <div key={hero.id} className="hero" onClick={ ev => that._toggleCarousel(ev) }>
-            <div className="hero-name">
+          <div key={hero.id} className="hero" data-index={index} onClick={ ev => that._toggleCarousel(ev) }>
+            <div className="hero-name" data-index={index}>
               {hero.name}
             </div>
-            <div className="hero-image-container">
-              <img src={hero.imageUrl} className="hero-imageurl" />
+            <div className="hero-image-container" data-index={index}>
+              <img src={hero.imageUrl} className="hero-imageurl" data-index={index}/>
             </div>
           </div>
         );
@@ -69,7 +77,6 @@ class SuperHeroesList extends Component {
 
   render() {
     if (this.state.allSuperHeroes.length > 0) {
-      console.log('we have our heroes!!!');
       const allSuperHeroes = this.state.allSuperHeroes;
       return (
         <div>
@@ -82,7 +89,7 @@ class SuperHeroesList extends Component {
                 naturalSlideWidth={100}
                 naturalSlideHeight={60}
                 totalSlides={3}
-                currentSlide={2}
+                currentSlide={this.state.slideIndex}
               >
                 <Slider>
                   <Slide index={0}>
