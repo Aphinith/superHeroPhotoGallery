@@ -24,7 +24,7 @@
   top: -35px;
 }
 
-.hero-name, .carousel-hero-name {
+.hero-name, .carousel-hero-name, .carousel-hero-description {
   font-size: 26px;
   color: white;
   text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 1px black;
@@ -35,9 +35,16 @@
   margin-top: 6px;
 }
 
-.carousel-hero-name {
+.carousel-hero-name, .carousel-hero-description {
   z-index: 3000;
   font-size: 40px;
+}
+
+.carousel-hero-description {
+  font-size: 30px;
+  bottom: 25px;
+  color: black;
+  text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 1px white;
 }
 
 .modal-background {
