@@ -3,11 +3,14 @@ import { PUBLIC_KEY, PRIVATE_KEY } from './KEYS.js';
 import './SuperHeroesList.css';
 import axios from 'axios';
 import CryptoJS from 'crypto-js';
+import { CarouselProvider, Slider, Slide, ButtonBack, ButtonNext } from 'pure-react-carousel';
+import 'pure-react-carousel/dist/react-carousel.es.css';
 
 class SuperHeroesList extends Component {
   constructor(props) {
       super(props);
-      this.state = { "allSuperHeroes": [] }
+      this.state = { "allSuperHeroes": [],
+                     "modalBackgroundDisplay": "modal-hide" }
     }
 
   componentDidMount() {
@@ -33,12 +36,21 @@ class SuperHeroesList extends Component {
       });
   }
 
+  _toggleCarousel(ev) {
+    console.log('show carousel');
+    if (this.state.modalBackgroundDisplay === "modal-hide") {
+      this.setState({"modalBackgroundDisplay": "modal-show"});
+    } else {
+      this.setState({"modalBackgroundDisplay": "modal-hide"});
+    }
+  }
+
   _showAllSuperHeroes(superHeroes) {
-    console.log('all super heroes: ', superHeroes);
+    const that = this;
     return (
       superHeroes.map(function(hero) {
         return (
-          <div key={hero.id} className="hero">
+          <div key={hero.id} className="hero" onClick={ ev => that._toggleCarousel(ev) }>
             <div className="hero-name">
               {hero.name}
             </div>
@@ -51,13 +63,43 @@ class SuperHeroesList extends Component {
     );
   }
 
+  _doNothingOnClick(ev) {
+    ev.stopPropagation();
+  }
+
   render() {
     if (this.state.allSuperHeroes.length > 0) {
       console.log('we have our heroes!!!');
       const allSuperHeroes = this.state.allSuperHeroes;
       return (
-        <div className="heroes-container">
-          {this._showAllSuperHeroes(allSuperHeroes)}
+        <div>
+          <div className="heroes-container">
+            {this._showAllSuperHeroes(allSuperHeroes)}
+          </div>
+          <div className={`modal-background ${this.state.modalBackgroundDisplay}`} onClick={ ev => this._toggleCarousel(ev) }>
+            <div className="carousel-container" onClick={ ev => this._doNothingOnClick(ev) }>
+              <CarouselProvider
+                naturalSlideWidth={100}
+                naturalSlideHeight={60}
+                totalSlides={3}
+                currentSlide={2}
+              >
+                <Slider>
+                  <Slide index={0}>
+                    <img src={allSuperHeroes[0]['imageUrl']} className="carousel-hero-imageurl" />
+                  </Slide>
+                  <Slide index={1}>
+                    <img src={allSuperHeroes[1]['imageUrl']} className="carousel-hero-imageurl" />
+                  </Slide>
+                  <Slide index={2}>
+                    <img src={allSuperHeroes[2]['imageUrl']} className="carousel-hero-imageurl" />
+                  </Slide>
+                </Slider>
+                <ButtonBack>Previous</ButtonBack>
+                <ButtonNext>Next</ButtonNext>
+              </CarouselProvider>
+            </div>
+          </div>
         </div>
       );
     } else {
